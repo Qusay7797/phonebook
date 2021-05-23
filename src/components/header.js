@@ -10,6 +10,9 @@ const LogText = ({ loggedIn }) => (
       right: 64px;
       width: 54px;
       height: 20px;
+      @media only screen and (max-width: 640px) {
+        right: 15px;
+      }
     `}
   >
     <p
@@ -36,6 +39,9 @@ const HeaderMainText = () => (
       left: 64px;
       width: 272px;
       height: 50px;
+      @media only screen and (max-width: 640px) {
+        left: 15px;
+      }
     `}
   >
     <p
@@ -62,6 +68,7 @@ export default function Header() {
         height: 90px;
         position: fixed;
         top: 0px;
+        z-index: 99;
         background: #ffffff 0% 0% no-repeat padding-box;
         box-shadow: 0px 3px 6px #4eb99029;
         border-radius: 0px 0px 6px 6px;
