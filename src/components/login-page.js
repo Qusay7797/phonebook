@@ -1,44 +1,63 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
+import { useEffect, useState } from "react";
 
-const LoginButton = ({ positionTop }) => (
-  <div
-    css={css`
-      position: relative;
-      top: ${positionTop}px;
-      left: 64px;
-      cursor: pointer;
-      width: 532px;
-      height: 64px;
-      background: #00955c 0% 0% no-repeat padding-box;
-      border-radius: 6px;
-      opacity: 1;
-      -webkit-user-select: none; /* Chrome/Safari */
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* IE10+ */
-      @media only screen and (max-width: 640px) {
-        width: auto;
-        max-width: 400px;
-        left: 0;
-        margin: 0 5px;
+const LoginButton = ({ positionTop }) => {
+  const [colored, setColored] = useState(false);
+  useEffect(() => {
+    window.addEventListener("click", function (e) {
+      if (document.getElementById("login-box").contains(e.target)) {
+        return;
+      } else {
+        setColored(true);
+        setTimeout(() => {
+          setColored(false);
+        }, 750);
       }
-    `}
-  >
-    <p
+    });
+  }, []);
+
+  return (
+    <div
       css={css`
-        text-align: center;
-        font: normal normal bold 20px/64px Century Gothic;
-        letter-spacing: 0px;
-        color: #ffffff;
+        position: relative;
+        top: ${positionTop}px;
+        left: 64px;
+        cursor: pointer;
+        width: 532px;
+        height: 64px;
+        background: ${colored
+          ? "#008e95 0% 0% no-repeat padding-box"
+          : "#00955c 0% 0% no-repeat padding-box"};
+        border-radius: 6px;
         opacity: 1;
-        margin: 0;
+        -webkit-user-select: none; /* Chrome/Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+        @media only screen and (max-width: 640px) {
+          width: auto;
+          max-width: 400px;
+          left: 0;
+          margin: 0 5px;
+        }
       `}
     >
-      Login
-    </p>
-  </div>
-);
+      <p
+        css={css`
+          text-align: center;
+          font: normal normal bold 20px/64px Century Gothic;
+          letter-spacing: 0px;
+          color: #ffffff;
+          opacity: 1;
+          margin: 0;
+        `}
+      >
+        Login
+      </p>
+    </div>
+  );
+};
 
 const LoginInputField = ({ fieldName, inputFieldPlaceHolder, positionTop }) => (
   <div
@@ -58,6 +77,9 @@ const LoginInputField = ({ fieldName, inputFieldPlaceHolder, positionTop }) => (
         opacity: 1;
         display: inline-block;
         text-align: left;
+        v-webkit-user-select: none; /* Chrome/Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
       `}
     >
       {fieldName}
@@ -118,6 +140,7 @@ const LoginHeader = () => (
 
 const LoginBox = () => (
   <div
+    id={"login-box"}
     css={css`
       position: relative;
       display: inline-block;
