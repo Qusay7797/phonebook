@@ -3,11 +3,14 @@
 import { jsx, css } from "@emotion/react";
 import { useEffect, useState } from "react";
 
-const LoginButton = ({ positionTop }) => {
+const LoginButton = ({ positionTop, loggedIn, setLoggedIn }) => {
   const [colored, setColored] = useState(false);
   useEffect(() => {
     window.addEventListener("click", function (e) {
-      if (document.getElementById("login-box").contains(e.target)) {
+      if (
+        document.getElementById("login-box") &&
+        document.getElementById("login-box").contains(e.target)
+      ) {
         return;
       } else {
         setColored(true);
@@ -20,6 +23,7 @@ const LoginButton = ({ positionTop }) => {
 
   return (
     <div
+      onClick={() => !loggedIn && setLoggedIn(true)}
       css={css`
         position: relative;
         top: ${positionTop}px;
@@ -138,7 +142,7 @@ const LoginHeader = () => (
   </div>
 );
 
-const LoginBox = () => (
+const LoginBox = ({ loggedIn, setLoggedIn }) => (
   <div
     id={"login-box"}
     css={css`
@@ -163,10 +167,14 @@ const LoginBox = () => (
       inputFieldPlaceHolder={"Enter Password"}
       positionTop={212}
     />
-    <LoginButton positionTop={254} />
+    <LoginButton
+      positionTop={254}
+      loggedIn={loggedIn}
+      setLoggedIn={setLoggedIn}
+    />
   </div>
 );
-export default function LoginPage() {
+export default function LoginPage({ loggedIn, setLoggedIn }) {
   return (
     <div
       css={css`
@@ -181,7 +189,7 @@ export default function LoginPage() {
         background-color: #f8fffc;
       `}
     >
-      <LoginBox />
+      <LoginBox loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
     </div>
   );
 }

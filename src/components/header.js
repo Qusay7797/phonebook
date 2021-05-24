@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 
-const LogText = ({ loggedIn }) => (
+const LogText = ({ loggedIn, setLoggedIn }) => (
   <div
     css={css`
       position: absolute;
@@ -10,12 +10,14 @@ const LogText = ({ loggedIn }) => (
       right: 64px;
       width: 54px;
       height: 20px;
+      cursor: ${loggedIn ? "pointer" : "normal"};
       @media only screen and (max-width: 640px) {
         right: 15px;
       }
     `}
   >
     <p
+      onClick={() => loggedIn && setLoggedIn(false)}
       css={css`
         font-family: Century Gothic;
         font-weight: bold;
@@ -60,7 +62,7 @@ const HeaderMainText = () => (
     </p>
   </div>
 );
-export default function Header() {
+export default function Header({ loggedIn, setLoggedIn }) {
   return (
     <div
       css={css`
@@ -76,7 +78,7 @@ export default function Header() {
       `}
     >
       <HeaderMainText />
-      <LogText loggedIn={false} />
+      <LogText loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
     </div>
   );
 }
