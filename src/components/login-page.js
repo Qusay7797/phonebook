@@ -2,9 +2,22 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import { useEffect, useState } from "react";
-
-const LoginButton = ({ positionTop, loggedIn, setLoggedIn }) => {
+// import { auth } from "../firebase";
+const LoginButton = ({
+  positionTop,
+  loggedIn,
+  setLoggedIn,
+  email,
+  password,
+}) => {
   const [colored, setColored] = useState(false);
+  // const login = async () => {
+  //   try {
+  //     await auth.signInWithEmailAndPassword(email, password);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
   useEffect(() => {
     window.addEventListener("click", function (e) {
       if (
@@ -23,7 +36,10 @@ const LoginButton = ({ positionTop, loggedIn, setLoggedIn }) => {
 
   return (
     <div
-      onClick={() => !loggedIn && setLoggedIn(true)}
+      onClick={() => {
+        // login();
+        !loggedIn && setLoggedIn(true);
+      }}
       css={css`
         position: relative;
         top: ${positionTop}px;
@@ -63,7 +79,12 @@ const LoginButton = ({ positionTop, loggedIn, setLoggedIn }) => {
   );
 };
 
-const LoginInputField = ({ fieldName, inputFieldPlaceHolder, positionTop }) => (
+const LoginInputField = ({
+  fieldName,
+  inputFieldPlaceHolder,
+  positionTop,
+  valueSetter,
+}) => (
   <div
     css={css`
       position: relative;
@@ -88,6 +109,7 @@ const LoginInputField = ({ fieldName, inputFieldPlaceHolder, positionTop }) => (
     >
       {fieldName}
       <input
+        onChange={(v) => valueSetter(v.target.value)}
         css={css`
           margin-top: 19px;
           display: block;
@@ -142,38 +164,47 @@ const LoginHeader = () => (
   </div>
 );
 
-const LoginBox = ({ loggedIn, setLoggedIn }) => (
-  <div
-    id={"login-box"}
-    css={css`
-      position: relative;
-      display: inline-block;
-      width: 660px;
-      overflow: auto;
-      height: 585px;
-      background: #ffffff 0% 0% no-repeat padding-box;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
-    `}
-  >
-    <LoginHeader />
-    <LoginInputField
-      fieldName={"Email address"}
-      inputFieldPlaceHolder={"Enter Email address"}
-      positionTop={182}
-    />
-    <LoginInputField
-      fieldName={"Password"}
-      inputFieldPlaceHolder={"Enter Password"}
-      positionTop={212}
-    />
-    <LoginButton
-      positionTop={254}
-      loggedIn={loggedIn}
-      setLoggedIn={setLoggedIn}
-    />
-  </div>
-);
+const LoginBox = ({ loggedIn, setLoggedIn }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  return (
+    <div
+      id={"login-box"}
+      css={css`
+        position: relative;
+        display: inline-block;
+        width: 660px;
+        overflow: auto;
+        height: 585px;
+        background: #ffffff 0% 0% no-repeat padding-box;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+      `}
+    >
+      <LoginHeader />
+      <LoginInputField
+        fieldName={"Email address"}
+        inputFieldPlaceHolder={"Enter Email address"}
+        positionTop={182}
+        valueSetter={setEmail}
+      />
+      <LoginInputField
+        fieldName={"Password"}
+        inputFieldPlaceHolder={"Enter Password"}
+        positionTop={212}
+        valueSetter={setPassword}
+      />
+      <LoginButton
+        positionTop={254}
+        loggedIn={loggedIn}
+        setLoggedIn={setLoggedIn}
+        email={email}
+        password={password}
+      />
+    </div>
+  );
+};
 export default function LoginPage({ loggedIn, setLoggedIn }) {
   return (
     <div
